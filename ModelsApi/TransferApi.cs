@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ModelsApi
 {
-    public class TransferApi
+    public class TransferApi : ApiBaseType
     {
-        public int Id { get; set; }
         public int? IdOrder { get; set; }
         public int? IdAirportStart { get; set; }
         public int? IdAirportEnd { get; set; }

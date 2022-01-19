@@ -1,8 +1,7 @@
 ﻿namespace ModelsApi
 {
-    public class AirportApi
+    public class AirportApi : ApiBaseType
     {
-        public int Id { get; set; }
         public string Title { get; set; }
     }
 }

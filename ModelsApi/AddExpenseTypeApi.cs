@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ModelsApi
 {
-    public class AddExpenseTypeApi
+    public class AddExpenseTypeApi : ApiBaseType
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public decimal? AddCost { get; set; }
     }
