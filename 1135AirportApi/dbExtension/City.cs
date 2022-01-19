@@ -17,8 +17,6 @@ namespace _1135AirportApi.db
                 Id = city.Id,
                 Title = city.Title,
                 UtcAdd = city.UtcAdd,
-                Airports = city.Airports.Select(s=>
-                    new AirportApi { Id = s.Id, Title = s.Title }) // todo - не выводятся
             };
         }
         public static explicit operator City(CityApi city)
@@ -30,7 +28,30 @@ namespace _1135AirportApi.db
                 Id = city.Id,
                 Title = city.Title,
                 UtcAdd = city.UtcAdd
-                
+            };
+        }
+    }
+
+    public partial class Airport
+    {
+        public static explicit operator AirportApi(Airport port)
+        {
+            if (port == null)
+                return null;
+            return new AirportApi
+            {
+                Id = port.Id,
+                Title = port.Title,
+            };
+        }
+        public static explicit operator Airport(AirportApi port)
+        {
+            if (port == null)
+                return null;
+            return new Airport
+            {
+                Id = port.Id,
+                Title = port.Title,
             };
         }
     }

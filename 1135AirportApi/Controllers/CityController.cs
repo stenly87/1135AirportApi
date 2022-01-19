@@ -24,18 +24,25 @@ namespace _1135AirportApi.Controllers
         [HttpGet]
         public IEnumerable<CityApi> Get()
         {
+            var airports = dbContext.Airports.ToList();
             return dbContext.Cities.ToList().
-                Select(s => (CityApi)s);
+                Select(s => { 
+                    var result = (CityApi)s;
+                    result.Airports = airports.Where(a => a.IdCity == s.Id).Select(a=> (AirportApi)a);
+                    return result;
+                });
         }
 
         // GET api/<CityController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CityApi>> Get(int id)
         {
-            var result = await dbContext.Cities.FindAsync(id);
-            if (result == null)
+            var city = await dbContext.Cities.FindAsync(id);
+            if (city == null)
                 return NotFound();
-            return Ok((CityApi)result);
+            var result = (CityApi)city;
+            result.Airports = dbContext.Airports.Where(s => s.IdCity == id).Select(a => (AirportApi)a);
+            return Ok();
         }
 
         // POST api/<CityController>
@@ -44,6 +51,9 @@ namespace _1135AirportApi.Controllers
         {
             var newCity = (City)value;
             dbContext.Cities.Add(newCity);
+            await dbContext.SaveChangesAsync();
+            var ports = value.Airports.Select(s => (Airport)s);
+            await dbContext.Airports.AddRangeAsync(ports);
             await dbContext.SaveChangesAsync();
             return Ok(newCity.Id);
         }
